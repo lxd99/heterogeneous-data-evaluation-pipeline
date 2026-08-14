@@ -10,6 +10,15 @@ Third-party repositories, datasets, weights and environments are not copied into
 repository. Setup scripts clone fixed commits, apply the evaluation changes and fetch
 public data/model files from their original sources.
 
+## Module branches
+
+Each test module is also available as a standalone branch with its own README,
+repository list, setup scripts and evaluation entry point:
+
+- [Module 3.1: heterogeneous graph representation](https://github.com/lxd99/heterogeneous-data-evaluation-pipeline/tree/module-3-1-heterogeneous-graph)
+- [Module 3.2: dynamic graph representation](https://github.com/lxd99/heterogeneous-data-evaluation-pipeline/tree/module-3-2-dynamic-graph)
+- [Module 3.3: efficient large-model training](https://github.com/lxd99/heterogeneous-data-evaluation-pipeline/tree/module-3-3-efficient-llm)
+
 ## Validated hardware
 
 Ubuntu, Python 3.9, CUDA 11.8 and two RTX 3090 GPUs. One GPU is sufficient for
