@@ -1,24 +1,15 @@
-# Heterogeneous Data Evaluation Pipeline
+# Module 3.3: Efficient Large-Model Training
 
-This pipeline reproduces the three modules in the final test report:
+本分支只包含高效大模型训练模块的复现 pipeline：
 
-- 3.1 heterogeneous graph representation: Seq-HGNN and R-HGNN
-- 3.2 dynamic graph representation: TPNet and DyGKT
-- 3.3 efficient large-model training: SMP and E5-V
+- SMP：BERT-base、MNLI 和 50% 静态剪枝掩码
+- E5-V：8B 多模态模型在 Flickr30K、COCO 上的零样本图文检索
 
-Third-party repositories, datasets, weights and environments are not copied into this
-repository. Setup scripts clone fixed commits, apply the evaluation changes and fetch
-public data/model files from their original sources.
-
-## Validated hardware
-
-Ubuntu, Python 3.9, CUDA 11.8 and two RTX 3090 GPUs. One GPU is sufficient for
-smoke tests; the complete E5-V retrieval task uses two GPUs.
-
-## Quick start
+## 快速开始
 
 ```bash
-git clone https://github.com/lxd99/heterogeneous-data-evaluation-pipeline.git
+git clone --branch module-3-3-efficient-llm \
+  https://github.com/lxd99/heterogeneous-data-evaluation-pipeline.git
 cd heterogeneous-data-evaluation-pipeline
 
 bash setup/clone_repos.sh
@@ -28,49 +19,14 @@ bash verify_setup.sh
 GPU=0 bash run.sh smoke
 ```
 
-One-command setup:
+SMP 与 E5-V 使用不同版本的 Transformers/Datasets，因此分别创建独立环境。
+E5-V 权重约 16GB，完整检索建议使用两张 24GB GPU。
+
+## 完整评测
 
 ```bash
-PYTHON_BIN=python3.9 bash setup/all.sh
+CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full
 ```
 
-## Full evaluation
-
-```bash
-CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full-3.1
-CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full-3.2
-CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full-3.3
-```
-
-Run all three modules sequentially:
-
-```bash
-CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full-all
-```
-
-Full runs can take hours. The explicit `CONFIRM_FULL=1` guard prevents accidental
-submission of expensive jobs.
-
-## Output files
-
-- outer command logs: `runs/`
-- per-method logs: `logs/`
-- structured metrics: `results/`
-- expected report values: `EXPECTED_RESULTS.md`
-- fixed upstream revisions: `UPSTREAMS.tsv`
-
-Each outer log records the command, timestamps and exit code. Retain the timestamped
-logs when submitting test evidence.
-
-## Layout
-
-- `setup/`: repository, environment and data construction
-- `scripts/`: portable evaluation entry points
-- `patches/`: modifications applied to tracked upstream files
-- `overrides/`: new evaluator files copied into upstream repositories
-- `requirements/`: validated package versions
-- `docs/DATA.md`: public data/model sources and path layout
-- `docs/ENVIRONMENT.md`: validated environment
-
-The fixed commits make source provenance explicit and avoid republishing third-party
-repositories that do not declare a redistribution license.
+结果保存到 `runs/`、`logs/` 和 `results/`。数据来源见 `docs/DATA.md`，
+目标结果见 `EXPECTED_RESULTS.md`。
