@@ -1,0 +1,14 @@
+repos/
+envs/
+data/
+logs/*
+results/*
+runs/*
+!logs/.gitkeep
+!results/.gitkeep
+!runs/.gitkeep
+__pycache__/
+*.pyc
+wandb/
+.DS_Store
+._*
