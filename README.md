@@ -1,85 +1,33 @@
 # Heterogeneous Data Evaluation Pipeline
 
-This pipeline reproduces the three modules in the final test report:
+本仓库按更新版表6-7拆分为三个独立评测模块。每个目录都有自己的 `README.md`、`启动.sh` 和三次结果汇总脚本；每一次测试都必须满足对应绝对阈值，不采用平均值、最高值或相对提升作为验收结果。
 
-- 3.1 heterogeneous graph representation: Seq-HGNN and R-HGNN
-- 3.2 dynamic graph representation: TPNet and DyGKT
-- 3.3 efficient large-model training: SMP and E5-V
+| 目录 | 方法 | 绝对验收指标 |
+| --- | --- | --- |
+| `module_1_r_hgnn/` | R-HGNN | 模型参数量不超过 5.64M |
+| `module_2_tpnet/` | TPNet | UN Trade AP 不低于 85.9%；LastFM 加速比不低于 66x/90x；MOOC 加速比不低于 38x/51x |
+| `module_3_smp/` | SMP | 可训练参数量不超过 84,934,656 |
 
-Third-party repositories, datasets, weights and environments are not copied into this
-repository. Setup scripts clone fixed commits, apply the evaluation changes and fetch
-public data/model files from their original sources.
-
-## Module branches
-
-Each test module is also available as a standalone branch with its own README,
-repository list, setup scripts and evaluation entry point:
-
-- [Module 3.1: heterogeneous graph representation](https://github.com/lxd99/heterogeneous-data-evaluation-pipeline/tree/module-3-1-heterogeneous-graph)
-- [Module 3.2: dynamic graph representation](https://github.com/lxd99/heterogeneous-data-evaluation-pipeline/tree/module-3-2-dynamic-graph)
-- [Module 3.3: efficient large-model training](https://github.com/lxd99/heterogeneous-data-evaluation-pipeline/tree/module-3-3-efficient-llm)
-
-## Validated hardware
-
-Ubuntu, Python 3.9, CUDA 11.8 and two RTX 3090 GPUs. One GPU is sufficient for
-smoke tests; the complete E5-V retrieval task uses two GPUs.
-
-## Quick start
+## 运行入口
 
 ```bash
 git clone https://github.com/lxd99/heterogeneous-data-evaluation-pipeline.git
 cd heterogeneous-data-evaluation-pipeline
 
-bash setup/clone_repos.sh
-PYTHON_BIN=python3.9 bash setup/create_envs.sh
-bash setup/prepare_data.sh
-bash verify_setup.sh
-GPU=0 bash run.sh smoke
+(cd module_1_r_hgnn && bash 启动.sh help)
+(cd module_2_tpnet && bash 启动.sh help)
+(cd module_3_smp && bash 启动.sh help)
 ```
 
-One-command setup:
+每个模块支持：
 
-```bash
-PYTHON_BIN=python3.9 bash setup/all.sh
-```
+- `prepare`：克隆固定版本上游仓库、创建环境并准备公开数据/模型；
+- `train`：运行论文训练或剪枝流程，生成 checkpoint；
+- `eval`：加载3个固定 checkpoint 或结果，执行三次评测并逐次验收；
+- `all`：顺序执行 `prepare`、`train`、`eval`。
 
-## Full evaluation
+直接复现终版测试指标时，进入对应模块后依次执行 `prepare`、`train` 和 `eval`；已有 checkpoint 时可跳过 `train`。R-HGNN 与 SMP 的终版指标是参数量，评测时会重新构造或加载模型3次，不依赖挑选最优训练结果。
 
-```bash
-CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full-3.1
-CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full-3.2
-CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full-3.3
-```
+每次运行的原始日志保存在模块内的 `logs/`，结构化三次结果和逐项 PASS/FAIL 保存在 `results/summary.json`。验收不使用平均值或挑选最优结果，任何一次未达到阈值都会以非零状态退出。
 
-Run all three modules sequentially:
-
-```bash
-CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full-all
-```
-
-Full runs can take hours. The explicit `CONFIRM_FULL=1` guard prevents accidental
-submission of expensive jobs.
-
-## Output files
-
-- outer command logs: `runs/`
-- per-method logs: `logs/`
-- structured metrics: `results/`
-- expected report values: `EXPECTED_RESULTS.md`
-- fixed upstream revisions: `UPSTREAMS.tsv`
-
-Each outer log records the command, timestamps and exit code. Retain the timestamped
-logs when submitting test evidence.
-
-## Layout
-
-- `setup/`: repository, environment and data construction
-- `scripts/`: portable evaluation entry points
-- `patches/`: modifications applied to tracked upstream files
-- `overrides/`: new evaluator files copied into upstream repositories
-- `requirements/`: validated package versions
-- `docs/DATA.md`: public data/model sources and path layout
-- `docs/ENVIRONMENT.md`: validated environment
-
-The fixed commits make source provenance explicit and avoid republishing third-party
-repositories that do not declare a redistribution license.
+推荐 Ubuntu 20.04/22.04、Python 3.9、CUDA 11.8 和 RTX 3090。第三方仓库、模型权重和数据不重复提交，固定版本及公开来源见各模块 README。

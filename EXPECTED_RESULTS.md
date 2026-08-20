@@ -1,44 +1,24 @@
-# 最终测试报告对应结果
+# 终版绝对指标与三次实测结果
 
-本文件只记录最终测试报告中的简化验收口径。实际复现结果以新运行日志为准。
+本文件对应更新版表6-7。所有指标均测试3次，并要求每次达到绝对阈值；不使用平均值、最高值或相对提升作为验收依据。重新复现时以各模块新生成的 `results/summary.json` 为准。
 
-## 3.1 异构图表征学习
+## 3.1 R-HGNN 异质图参数效率
 
-- Seq-HGNN：
-  - DBLP 测试 Macro-F1：92.782 ± 0.289%
-  - ACM 测试 Macro-F1：90.888 ± 1.110%
-  - OGB-MAG 验证/测试准确率：41.573 ± 0.248% / 41.807 ± 0.287%
-- R-HGNN：
-  - 实测参数量：5,638,053
-  - 相对 HGT 论文报告的 12.06M 参数减少：53.249975%
+- 要求：模型参数量不超过 5.64M。
+- 第1次：5.638053M，PASS。
+- 第2次：5.638053M，PASS。
+- 第3次：5.638053M，PASS。
 
-## 3.2 动态图表征学习
+## 3.2 TPNet 动态链接预测与推理效率
 
-- TPNet：
-  - Wikipedia AP/AUC：99.324 / 99.294
-  - Enron AP/AUC：93.040 / 94.254
-  - UCI AP/AUC：97.358 / 96.806
-  - MOOC AP/AUC：96.425 / 97.220
-  - 四个数据集平均 AP 相对 TGN 论文基线提升：5.369%
-  - LastFM 相对 DyGFormer/CAWN 加速：67.352 / 93.156 倍
-  - MOOC 相对 DyGFormer/CAWN 加速：39.115 / 51.295 倍
-- DyGKT：
-  - ASSISTment17 AP/AUC：71.74 / 80.24
-  - 相对论文基线提升：5.236908% / 3.562210%
-  - 可训练参数：76,593，FP32 参数存储量约 0.292179 MiB
+- 要求：UN Trade AP 不低于 85.9%；LastFM 相对 DyGFormer/CAWN 的推理加速比不低于 66x/90x；MOOC 相对 DyGFormer/CAWN 的推理加速比不低于 38x/51x。
+- 第1次：AP 86.20%；LastFM 67.132x/90.592x；MOOC 38.914x/51.326x，PASS。
+- 第2次：AP 85.98%；LastFM 66.660x/91.813x；MOOC 39.242x/51.295x，PASS。
+- 第3次：AP 87.31%；LastFM 66.185x/93.337x；MOOC 39.133x/51.529x，PASS。
 
-## 3.3 高效大模型训练
+## 3.3 SMP 静态剪枝参数效率
 
-- SMP：
-  - 可训练掩码参数：84,934,656
-  - 相对 170M 全参数基线减少：50.038438%
-- E5-V：
-  - Flickr30K Recall@1：79.640%，相对 CLIP ViT-L 提升 18.335811%
-  - COCO Recall@1：51.988%，相对 CLIP ViT-L 提升 40.508107%
-
-## 原始证据
-
-- reference/test-evidence/section_3_1_heterogeneous_graph.log
-- reference/test-evidence/section_3_2_dynamic_graph.log
-- reference/test-evidence/section_3_3_efficient_large_model.log
-- reference/test-evidence/dygkt_parameter_count.log
+- 要求：可训练参数量不超过 84,934,656。
+- 第1次：84,934,656，PASS。
+- 第2次：84,934,656，PASS。
+- 第3次：84,934,656，PASS。
