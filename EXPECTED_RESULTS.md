@@ -9,12 +9,12 @@
 - 第2次：5.638053M，PASS。
 - 第3次：5.638053M，PASS。
 
-## 3.2 TPNet 动态链接预测与推理效率
+## 3.2 TPNet 与 DyGKT 动态图性能
 
-- 要求：UN Trade AP 不低于 85.9%；LastFM 相对 DyGFormer/CAWN 的推理加速比不低于 66x/90x；MOOC 相对 DyGFormer/CAWN 的推理加速比不低于 38x/51x。
-- 第1次：AP 86.20%；LastFM 67.132x/90.592x；MOOC 38.914x/51.326x，PASS。
-- 第2次：AP 85.98%；LastFM 66.660x/91.813x；MOOC 39.242x/51.295x，PASS。
-- 第3次：AP 87.31%；LastFM 66.185x/93.337x；MOOC 39.133x/51.529x，PASS。
+- 要求：TPNet 在 UN Trade 上的 AP 不低于 85.9%；DyGKT 在 ASSISTment17 上的 AP/AUC 不低于 71.6%/80.1%。
+- 第1次：TPNet AP 86.20%；DyGKT AP/AUC 72.14%/80.55%，PASS。
+- 第2次：TPNet AP 85.98%；DyGKT AP/AUC 71.66%/80.13%，PASS。
+- 第3次：TPNet AP 87.31%；DyGKT AP/AUC 72.21%/80.53%，PASS。
 
 ## 3.3 SMP 静态剪枝参数效率
 

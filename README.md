@@ -5,7 +5,7 @@
 | 目录 | 方法 | 绝对验收指标 |
 | --- | --- | --- |
 | `module_1_r_hgnn/` | R-HGNN | 模型参数量不超过 5.64M |
-| `module_2_tpnet/` | TPNet | UN Trade AP 不低于 85.9%；LastFM 加速比不低于 66x/90x；MOOC 加速比不低于 38x/51x |
+| `module_2_tpnet/` | TPNet、DyGKT | TPNet UN Trade AP 不低于 85.9%；DyGKT ASSISTment17 AP/AUC 不低于 71.6%/80.1% |
 | `module_3_smp/` | SMP | 可训练参数量不超过 84,934,656 |
 
 ## 运行入口
