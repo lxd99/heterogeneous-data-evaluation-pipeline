@@ -16,18 +16,12 @@ run_logged() {
 verify() { bash "$ROOT/verify_setup.sh"; }
 smoke() {
   verify
-  run_logged tpnet_enron env DATASET=enron GPU="${GPU:-0}" EPOCHS=1 RUN_KIND=evaluator_smoke bash "$ROOT/scripts/run_tpnet.sh"
-  run_logged dygkt env GPU="${GPU:-0}" EPOCHS=1 RUN_KIND=evaluator_smoke bash "$ROOT/scripts/run_dygkt.sh"
+  run_logged tpnet_untrade env DATASET=UNtrade GPU="${GPU:-0}" EPOCHS=1 RUN_KIND=evaluator_smoke bash "$ROOT/scripts/run_tpnet.sh"
 }
 full() {
   [[ "${CONFIRM_FULL:-0}" == 1 ]] || { echo "Set CONFIRM_FULL=1." >&2; exit 2; }
   verify
-  for dataset in wikipedia enron uci; do
-    run_logged "tpnet_$dataset" env DATASET="$dataset" GPU="${GPU0:-0}" RUNS=5 EPOCHS=100 bash "$ROOT/scripts/run_tpnet_full.sh"
-  done
-  run_logged tpnet_mooc env DATASET=mooc GPU="${GPU0:-0}" RUNS=2 EPOCHS=100 bash "$ROOT/scripts/run_tpnet_full.sh"
-  run_logged tpnet_efficiency env GPU="${GPU0:-0}" bash "$ROOT/scripts/run_tpnet_efficiency.sh"
-  run_logged dygkt_assist17 env GPU="${GPU1:-1}" RUNS=5 EPOCHS=100 bash "$ROOT/scripts/run_dygkt_full.sh"
+  run_logged tpnet_untrade env DATASET=UNtrade GPU="${GPU:-0}" RUNS=3 EPOCHS=100 bash "$ROOT/scripts/run_tpnet_full.sh"
 }
 case "${1:-}" in
   verify) verify ;;

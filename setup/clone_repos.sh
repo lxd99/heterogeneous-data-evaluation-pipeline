@@ -18,7 +18,5 @@ else
   echo "[ERROR] TPNet patch cannot be applied." >&2
   exit 1
 fi
-cp "$ROOT/overrides/DyGKT/"*.py "$ROOT/repos/DyGKT/"
 mkdir -p "$ROOT/repos/TPNet"/{processed_data,logs,saved_results,saved_models,wandb}
-mkdir -p "$ROOT/repos/DyGKT"/{processed_data,logs,saved_results,saved_models}
 echo "[READY] Module 3.2 repositories prepared."

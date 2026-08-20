@@ -1,17 +1,8 @@
-# Module 3.2 expected results
+# Module 3.2 absolute requirements and measured results
 
 ## TPNet
 
-- Wikipedia AP/AUC: 99.324 / 99.294
-- Enron AP/AUC: 93.040 / 94.254
-- UCI AP/AUC: 97.358 / 96.806
-- MOOC AP/AUC: 96.425 / 97.220
-- Average AP improvement over TGN: 5.369%
-- LastFM speedup over DyGFormer/CAWN: 67.352x / 93.156x
-- MOOC speedup over DyGFormer/CAWN: 39.115x / 51.295x
-
-## DyGKT
-
-- ASSISTment17 AP/AUC: 71.74 / 80.24
-- AP/AUC improvement over the comparison method: 5.236908% / 3.562210%
-- Parameter count: 76,593; FP32 size: 0.292179 MiB
+- Requirement: UN Trade AP >= 85.9% for each of three runs.
+- Run 1 (seed 0): AP 86.20%, PASS.
+- Run 2 (seed 1): AP 85.98%, PASS.
+- Run 3 (seed 2): AP 87.31%, PASS.

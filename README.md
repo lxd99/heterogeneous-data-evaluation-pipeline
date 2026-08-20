@@ -1,10 +1,10 @@
-# Module 3.2: Dynamic Graph Representation
+# Module 3.2: TPNet Dynamic Link Prediction
 
-本分支只包含动态图表征学习模块的复现 pipeline：
+本分支只包含 TPNet 在 UN Trade 上的复现 pipeline。固定 seed 0、1、2 测试3次，每次 AP 均需不低于 85.9%。
 
-- TPNet：Wikipedia、Enron、UCI、MOOC、LastFM
-- DyGKT：ASSISTment17
-- TPNet、DyGFormer、CAWN 批次推理效率对比
+- 方法：TPNet
+- 数据集：UN Trade
+- 指标：Average Precision (AP)
 
 ## 快速开始
 
@@ -20,14 +20,10 @@ bash verify_setup.sh
 GPU=0 bash run.sh smoke
 ```
 
-ASSISTment17 受数据使用条款约束，不能直接随仓库再分发。运行 DyGKT 前，
-按 `docs/DATA.md` 将处理后的文件放到指定目录。
-
 ## 完整评测
 
 ```bash
-CONFIRM_FULL=1 GPU0=0 GPU1=1 bash run.sh full
+CONFIRM_FULL=1 GPU=0 bash run.sh full
 ```
 
-结果分别保存到 `runs/`、`logs/` 和 `results/`。
-目标结果见 `EXPECTED_RESULTS.md`。
+该命令使用 seed 0、1、2 训练并评测 TPNet，结果保存到 `runs/`、`logs/` 和 `results/`。目标结果见 `EXPECTED_RESULTS.md`。
