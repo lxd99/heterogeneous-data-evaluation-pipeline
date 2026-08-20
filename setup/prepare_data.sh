@@ -12,17 +12,6 @@ mkdir -p "$ROOT/data/models" "$ROOT/data/huggingface" "$ROOT/repos/SEQ_HGNN/data
 "$GRAPH_PY" "$ROOT/scripts/prepare_seq_hgnn_ogb_mag.py"
 EVAL_ROOT="$ROOT" bash "$ROOT/scripts/fetch_tpnet_selected.sh"
 
-if [[ ! -f "$ROOT/repos/DyGKT/processed_data/assist17/ml_assist17.csv" ]]; then
-  cat >&2 <<'NOTICE'
-[MANUAL] DyGKT ASSISTment17 preprocessing files are not redistributed.
-Download ASSISTment17 under its data-use terms and construct:
-  repos/DyGKT/processed_data/assist17/ml_assist17.csv
-  repos/DyGKT/processed_data/assist17/ml_assist17.npy
-  repos/DyGKT/processed_data/assist17/ml_assist17_node.npy
-See docs/DATA.md for the required schema.
-NOTICE
-fi
-
 cd "$ROOT"
 "$SMP_PY" - <<'PY'
 from pathlib import Path

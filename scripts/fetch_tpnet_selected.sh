@@ -2,27 +2,16 @@
 set -euo pipefail
 
 ROOT=${EVAL_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}
-DATA="$ROOT/data/TPNet"
 REPO="$ROOT/repos/TPNet"
-BASE=https://zenodo.org/api/records/7213796/files
+PY="${GRAPH_PY:-$ROOT/envs/graph/bin/python}"
+ARCHIVE="$REPO/DG_data/UNtrade.zip"
+URL='https://zenodo.org/records/7213796/files/UNtrade.zip?download=1'
 
-mkdir -p "$DATA" "$REPO/processed_data"
-for name in wikipedia enron uci mooc lastfm; do
-  archive="$DATA/${name}.zip"
-  if [[ ! -s "$archive" ]]; then
-    curl -fL --retry 3 --connect-timeout 20 \
-      "$BASE/${name}.zip/content" -o "$archive"
-  fi
-  mkdir -p "$DATA/$name"
-  unzip -n "$archive" -d "$DATA/$name"
-  dataset_dir="$DATA/$name/$name"
-  if [[ ! -f "$dataset_dir/ml_${name}.csv" ]]; then
-    echo "Expected processed dataset not found: $dataset_dir" >&2
-    exit 1
-  fi
-  if [[ ! -e "$REPO/processed_data/$name" ]]; then
-    ln -s "$dataset_dir" "$REPO/processed_data/$name"
-  fi
-  md5sum "$archive"
-  ls -lh "$dataset_dir"/ml_${name}.*
-done
+mkdir -p "$REPO/DG_data" "$REPO/processed_data"
+[[ -s "$ARCHIVE" ]] || curl -fL --retry 5 --connect-timeout 20 "$URL" -o "$ARCHIVE"
+echo "b7b59f4606e25588612d96403690c306  $ARCHIVE" | md5sum -c -
+[[ -d "$REPO/DG_data/UNtrade" ]] || unzip -q "$ARCHIVE" -d "$REPO/DG_data"
+if [[ ! -f "$REPO/processed_data/UNtrade/ml_UNtrade.csv" ]]; then
+  (cd "$REPO/preprocess_data" && "$PY" preprocess_data.py --dataset_name UNtrade)
+fi
+ls -lh "$REPO/processed_data/UNtrade"/ml_UNtrade.*

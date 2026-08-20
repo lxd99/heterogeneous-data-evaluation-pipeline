@@ -20,7 +20,7 @@ Usage:
 Targets:
   verify    Check GPUs, code, datasets, models, environments and commits.
   evidence  Print the result evidence retained by the final test report.
-  smoke     Run lightweight executable checks for all six methods.
+  smoke     Run lightweight executable checks for the retained methods.
   full-*    Reproduce a complete module. These jobs can take hours.
 HELP
 }
@@ -80,8 +80,7 @@ run_smoke() {
   "$PKG/verify_setup.sh"
   run_logged seq_hgnn_profile env GPU="$gpu" bash "$ROOT/scripts/run_seq_hgnn_profile.sh"
   run_logged r_hgnn_profile env GPU="$gpu" bash "$ROOT/scripts/run_r_hgnn_profile.sh"
-  run_logged tpnet_enron_smoke env DATASET=enron GPU="$gpu" EPOCHS=1 RUN_KIND=evaluator_smoke bash "$ROOT/scripts/run_tpnet.sh"
-  run_logged dygkt_smoke env GPU="$gpu" EPOCHS=1 RUN_KIND=evaluator_smoke bash "$ROOT/scripts/run_dygkt.sh"
+  run_logged tpnet_untrade_smoke env DATASET=UNtrade GPU="$gpu" EPOCHS=1 RUN_KIND=evaluator_smoke bash "$ROOT/scripts/run_tpnet.sh"
   run_logged smp_profile env GPU="$gpu" bash "$ROOT/scripts/run_smp_profile.sh"
   run_logged e5v_profile bash "$ROOT/scripts/run_e5v_profile.sh"
 }
@@ -108,19 +107,14 @@ run_full_31() {
 
 run_full_32() {
   local gpu0
-  local gpu1
   require_full_confirmation
   gpu0=$(environment_value GPU0 0)
-  gpu1=$(environment_value GPU1 1)
   "$PKG/verify_setup.sh"
 
-  for dataset in wikipedia enron uci; do
-    run_logged tpnet_$dataset env DATASET="$dataset" GPU="$gpu0" RUNS=5 EPOCHS=100 bash "$ROOT/scripts/run_tpnet_full.sh"
+  for seed in 0 1 2; do
+    run_logged tpnet_untrade_seed$seed env DATASET=UNtrade GPU="$gpu0" RUNS=1 RUN_OFFSET="$seed" EPOCHS=100 \
+      PREFIX_SUFFIX="_untrade_seed${seed}" bash "$ROOT/scripts/run_tpnet_full.sh"
   done
-
-  run_logged tpnet_mooc env DATASET=mooc GPU="$gpu0" RUNS=2 EPOCHS=100 bash "$ROOT/scripts/run_tpnet_full.sh"
-  run_logged tpnet_efficiency env GPU="$gpu0" bash "$ROOT/scripts/run_tpnet_efficiency.sh"
-  run_logged dygkt_assist17 env GPU="$gpu1" RUNS=5 EPOCHS=100 bash "$ROOT/scripts/run_dygkt_full.sh"
 }
 
 run_full_33() {

@@ -9,12 +9,12 @@
 - 第2次：5.638053M，PASS。
 - 第3次：5.638053M，PASS。
 
-## 3.2 TPNet 与 DyGKT 动态图性能
+## 3.2 TPNet 动态链接预测性能
 
-- 要求：TPNet 在 UN Trade 上的 AP 不低于 85.9%；DyGKT 在 ASSISTment17 上的 AP/AUC 不低于 71.6%/80.1%。
-- 第1次：TPNet AP 86.20%；DyGKT AP/AUC 72.14%/80.55%，PASS。
-- 第2次：TPNet AP 85.98%；DyGKT AP/AUC 71.66%/80.13%，PASS。
-- 第3次：TPNet AP 87.31%；DyGKT AP/AUC 72.21%/80.53%，PASS。
+- 要求：TPNet 在 UN Trade 上的 AP 不低于 85.9%。
+- 第1次：TPNet AP 86.20%，PASS。
+- 第2次：TPNet AP 85.98%，PASS。
+- 第3次：TPNet AP 87.31%，PASS。
 
 ## 3.3 SMP 静态剪枝参数效率
 

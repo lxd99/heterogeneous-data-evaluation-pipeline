@@ -26,8 +26,6 @@ for repo in SEQ_HGNN TPNet; do
   fi
 done
 
-cp "$ROOT/overrides/DyGKT/"*.py "$ROOT/repos/DyGKT/"
 cp "$ROOT/overrides/E5-V/"*.py "$ROOT/repos/E5-V/"
 mkdir -p "$ROOT/repos/TPNet"/{processed_data,logs,saved_results,saved_models,wandb}
-mkdir -p "$ROOT/repos/DyGKT"/{logs,saved_results,saved_models}
 echo "[READY] Repositories cloned at fixed commits and evaluation changes applied."

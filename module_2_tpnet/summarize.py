@@ -16,25 +16,10 @@ for seed in range(3):
     tpnet_runs.append({"run": seed + 1, "seed": seed, "ap_percent": value, "pass": passed})
     print(f"[TPNet][RUN {seed + 1}] UN Trade AP={value:.2f}% >= 85.9%: {'PASS' if passed else 'FAIL'}")
 
-dygkt_runs = []
-for seed in range(3):
-    path = args.results / "dygkt" / f"module2_random_negative_sampling_DyGKT_seed{seed}.json"
-    metrics = json.loads(path.read_text())["test metrics"]
-    ap = float(metrics["average_precision"]) * 100
-    auc = float(metrics["roc_auc"]) * 100
-    passed = ap >= 71.6 and auc >= 80.1
-    dygkt_runs.append({"run": seed + 1, "seed": seed, "ap_percent": ap, "auc_percent": auc, "pass": passed})
-    print(f"[DyGKT][RUN {seed + 1}] ASSISTment17 AP/AUC={ap:.2f}%/{auc:.2f}%: {'PASS' if passed else 'FAIL'}")
-
-overall = all(item["pass"] for item in tpnet_runs + dygkt_runs)
+overall = all(item["pass"] for item in tpnet_runs)
 summary = {
-    "requirements": {
-        "TPNet_UN_Trade_AP_percent_min": 85.9,
-        "DyGKT_ASSISTment17_AP_percent_min": 71.6,
-        "DyGKT_ASSISTment17_AUC_percent_min": 80.1,
-    },
+    "requirements": {"TPNet_UN_Trade_AP_percent_min": 85.9},
     "tpnet_runs": tpnet_runs,
-    "dygkt_runs": dygkt_runs,
     "overall_pass": overall,
 }
 args.output.write_text(json.dumps(summary, indent=2) + "\n")

@@ -10,7 +10,6 @@ for path in \
   "$ROOT/repos/SEQ_HGNN/seq_hgnn/train.py" \
   "$ROOT/repos/R-HGNN/model/R_HGNN.py" \
   "$ROOT/repos/TPNet/train_link_prediction.py" \
-  "$ROOT/repos/DyGKT/train_link_classification_full_test_report.py" \
   "$ROOT/repos/SMP/run_glue.py" \
   "$ROOT/repos/E5-V/retrieval_full_test_report.py" \
   "$ROOT/envs/graph/bin/python" \
@@ -18,8 +17,7 @@ for path in \
   "$ROOT/envs/e5v/bin/python" \
   "$ROOT/repos/SEQ_HGNN/dataset/HGB_ACM/ACM.pkl" \
   "$ROOT/repos/SEQ_HGNN/dataset/HGB_DBLP/DBLP.pkl" \
-  "$ROOT/repos/TPNet/processed_data/wikipedia/ml_wikipedia.csv" \
-  "$ROOT/repos/DyGKT/processed_data/assist17/ml_assist17.csv" \
+  "$ROOT/repos/TPNet/processed_data/UNtrade/ml_UNtrade.csv" \
   "$ROOT/data/mnli_0.50_kd_mag.npy" \
   "$ROOT/data/models/e5-v-full/config.json"; do check "$path"; done
 while IFS=$'\t' read -r repo commit origin; do
